@@ -6,10 +6,18 @@ a {
   text-decoration: none;
 }
 
+a:hover {
+  color: red;
+}
+
 label {
   display: block;
 }
 
+nav {
+  display: flex;
+  flex-direction: row;
+}
 nav a {
   display: inline-block;
   margin: 1em;
@@ -18,4 +26,79 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+.box-container {
+  align-content: center;
+  align-items: center;
+  align-self: stretch;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  flex-grow: 1;
+  font-weight: 600;
+  justify-content: left;
+  min-width: 0;
+}
+
+.box {
+  position: relative;
+  min-width: 50px;
+  min-height: 50px;
+  height: 2vw;
+  width: 8rem;
+  border-radius: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 5px;
+  background-color: blue;
+  color: white;
+}
+
+.box:hover {
+  background-color: green;
+}
+
+.box:active {
+  background-color: green;
+}
+
+.box:focus {
+  background-color: green;
+}
+
+.scroll-box {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.scroll-box__wrapper {
+  width: 50%;
+  height: 50%;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  box-sizing: border-box;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+}
+
+.scroll-box__wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-box__container {
+  height: 50%;
+  display: inline-flex;
+}
+
+.rest-list {
+  width: 50%;
+  min-height: 30px;
+  border: 1px solid black;
+  background-color: lightblue;
+  display: flex;
+  font-family: fantasy;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
 }
