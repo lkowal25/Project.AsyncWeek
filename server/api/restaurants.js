@@ -1,11 +1,14 @@
 const router = require('express').Router();
+const { default: axios } = require('axios');
 const {
   models: { User, Restaurant, Food },
 } = require('../db');
 module.exports = router;
 
+const { requireToken } = require('./gateKeepingMiddleware');
+
 // GET / api / restaurants;
-router.get('/', async (req, res, next) => {
+router.get('/', requireToken, async (req, res, next) => {
   try {
     const restaurants = await Restaurant.findAll({
       include: [{ model: Food, as: 'menuItems' }],
@@ -16,23 +19,23 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// //get /api/restaurants/zipcodes
-// router.get('/zipcodes', async (req, res, next) => {
-//   try {
-//     const restaurants = axios.get(
-//       '//www.zipcodeapi.com/rest/DemoOnly00kWFcYkhjwtYUFpOW8bBY3BQwrsLZA8PGeoTdZaN7LcAnmiafeAbfYL/radius.json/11758/5/mile'
-//     );
-//   } catch (err) {
-//     next(err);
-//   }
-// });
-
 //GET /api/restaurants/:restaurantId
-https: router.get('/:restaurantId', async (req, res, next) => {
+router.get('/:restaurantId', async (req, res, next) => {
   try {
     const restaurant = await Restaurant.findByPk(req.params.restaurantId);
 
     res.send(restaurant);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get('/:zipcode/:radius/:units', async (req, res, next) => {
+  try {
+    const { data: zipcodes } = await axios.get(
+      'https://www.zipcodeapi.com/rest/3GVrasm41NNZ94E5w02d3CorHu2tCKDIW1DTPWTF5WSMMFESjEyT5UIP7dZUtvFC/radius.json/10039/5/mile'
+    );
+    console.log('zipcode backend', zipcodes);
   } catch (err) {
     next(err);
   }
