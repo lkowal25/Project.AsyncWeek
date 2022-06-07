@@ -1,23 +1,34 @@
 import { use } from 'chai';
-import React, { useEffect, useState, useContext } from 'react';
-import { connect } from 'react-redux';
-import { createRestaurant, getAllRestaurants } from '../store/restaurants';
-import { Link } from 'react-router-dom';
+
+import React, { useEffect, useState, useContext, useRef } from 'react';
+import { useEventListener } from './CustomHooks/useEventListener';
 import ScrollBox from '../customComponents/HorizontalScrollMenu';
 import { UserContext } from './Home';
 
+import { connect } from 'react-redux';
+import { getAllRestaurants } from '../store/restaurants';
+import { Link } from 'react-router-dom';
+
 export const RestaurantsLandingPage = (props) => {
   const [open, setOpen] = useState(false);
-  const username = useContext(UserContext);
+  const [localRestaurants, setLocalRestaurants] = useState([]);
 
+  const { username, zipcode } = useContext(UserContext);
+  const [zc, setZc] = useState(zipcode);
+  console.log('new zc', zc);
+  console.log('local', localRestaurants);
   const map = new Map();
   const map2 = new Map();
-  const restauraunts = props.restaurants;
+
+  const restaurants = [...props.restaurants];
 
   const [nationality, setNationality] = useState('');
 
-  for (let i = 0; i < restauraunts.length; ++i) {
-    const curRest = restauraunts[i];
+  const filtRest = restaurants.filter((rest) => rest.zipcode === zipcode);
+
+  //restaurants are filtered based on zipcode (will need to be an includes with array)
+  for (let i = 0; i < filtRest.length; ++i) {
+    const curRest = filtRest[i];
     const curName = curRest.nationality;
 
     //slower than obj[i] = i but maps can use non strings as keys!
@@ -30,7 +41,7 @@ export const RestaurantsLandingPage = (props) => {
     map2[curName] = curRest;
   }
 
-  const sortedRest = restauraunts.sort(function (a, b) {
+  const sortedRest = restaurants.sort(function (a, b) {
     const nameA = a.nationality.split(' ').join('').toUpperCase(); // ignore upper and lowercase
     const nameB = b.nationality.split(' ').join('').toUpperCase(); // ignore upper and lowercase
     if (nameA < nameB) {
@@ -44,35 +55,56 @@ export const RestaurantsLandingPage = (props) => {
     return 0;
   });
 
+  //turn the map of nationalities back into an array
   const sideBar = Array.from(map);
 
   useEffect(() => {
     props.getAllRestaurants();
-  }, []);
+  }, [zipcode]);
 
+  function handleKeyDown(e) {
+    if (e.key === 'Enter') {
+      setZc(e.target.value);
+    }
+  }
+
+  //custom hook can be used for any element, any event useful for grouping event listeners
+  useEventListener(
+    'keydown',
+    handleKeyDown,
+    document.querySelector('#horizontal-scroll-bar > input')
+  );
   return (
-    <div>
-      <h2>RESTAURANTS NEAR YOU HERE</h2>
-
-      <ScrollBox className="box-container">
-        {sideBar.map((restauraunt, idx) => {
-          return (
-            <button
-              key={idx}
-              className="box"
-              onClick={() => {
-                setNationality(restauraunt[0]);
-              }}
-            >{`${restauraunt[0]} (${restauraunt[1]})`}</button>
-          );
-        })}
-      </ScrollBox>
+    <div id="horizontal-scroll-bar">
+      <h3>RESTAURANTS NEAR {zc || zipcode}</h3>
+      <input placeholder="zipcode"></input>
       <div>
+        {sideBar.length > 0 ? (
+          <ScrollBox className="box-container">
+            {sideBar.map((restauraunt, idx) => {
+              return (
+                <button
+                  key={idx}
+                  className="box"
+                  onClick={() => {
+                    setNationality(restauraunt[0]);
+                  }}
+                >{`${restauraunt[0]} (${restauraunt[1]})`}</button>
+              );
+            })}
+          </ScrollBox>
+        ) : (
+          <h1>There are no restaurants near {zipcode}</h1>
+        )}
+      </div>
+      <div id="restaurants-list">
         <ul>
-          {restauraunts && restauraunts.length > 0
-            ? restauraunts
+          {restaurants && restaurants.length > 0
+            ? restaurants
                 .filter(
-                  (restauraunt) => restauraunt.nationality === nationality
+                  (restaurant) =>
+                    restaurant.zipcode === zipcode &&
+                    restaurant.nationality === nationality
                 )
                 .sort(function (a, b) {
                   const nameA = a.name.split(' ').join('').toUpperCase(); // ignore upper and lowercase

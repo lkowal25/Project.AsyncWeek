@@ -9,10 +9,10 @@ import SingleRestaurant from './SingleRestaurant';
  */
 export const UserContext = createContext();
 export const Home = (props) => {
-  const { username } = props;
+  const { username, zipcode } = props;
 
   return (
-    <UserContext.Provider value={username}>
+    <UserContext.Provider value={{ username, zipcode }}>
       <div>
         <h3>Welcome, {username}</h3>
         <h5>
@@ -46,6 +46,7 @@ export const Home = (props) => {
 const mapState = (state) => {
   return {
     username: state.auth.username,
+    zipcode: state.auth.zipcode,
   };
 };
 

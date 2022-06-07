@@ -4,7 +4,7 @@ const {
 } = require('../db');
 module.exports = router;
 
-GET / api / restaurants;
+// GET / api / restaurants;
 router.get('/', async (req, res, next) => {
   try {
     const restaurants = await Restaurant.findAll({
