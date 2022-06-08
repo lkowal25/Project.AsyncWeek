@@ -17,7 +17,10 @@ export const Home = (props) => {
       <div>
         <h3>Welcome, {username}</h3>
         <h5>
-          <Link to={`/home/${id}/restaurants`}> All Restaurants Page</Link>
+          <Link to={`/home/${id}/restaurants`}>
+            {' '}
+            Restaurants Near {zipcode}
+          </Link>
         </h5>
         <div id="landing-page">
           <Switch>

@@ -34,20 +34,18 @@ const _deleteRestaurant = (restaurant) => ({
 
 //THUNK CREATORS
 
-// export const getAllRestaurants = () => async (dispatch) => {
-//   const { data: restaurants } = await axios.get('/api/restaurants');
-//   dispatch(gotAllRestaurants(restaurants));
-// };
-
-export const getAllRestaurants = () => async (dispatch) => {
+export const getAllRestaurants = (userId, zipcode) => async (dispatch) => {
   const token = window.localStorage.getItem(TOKEN);
-  console.log('here is the token', token);
+
   if (token) {
-    const { data: restaurants } = await axios.get('/api/restaurants', {
-      headers: {
-        authorization: token,
-      },
-    });
+    const { data: restaurants } = await axios.get(
+      `/api/restaurants/${userId}/${zipcode}`,
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
     dispatch(gotAllRestaurants(restaurants));
   }
 };

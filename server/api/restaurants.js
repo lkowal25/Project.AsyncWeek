@@ -8,12 +8,17 @@ module.exports = router;
 const { requireToken } = require('./gateKeepingMiddleware');
 
 // GET / api / restaurants;
-router.get('/', requireToken, async (req, res, next) => {
+router.get('/:userId/:zipcode', requireToken, async (req, res, next) => {
   try {
+    const userRestaurants = await Restaurant.findAll({
+      where: {
+        zipcode: req.params.zipcode,
+      },
+    });
     const restaurants = await Restaurant.findAll({
       include: [{ model: Food, as: 'menuItems' }],
     });
-    res.json(restaurants);
+    res.send(restaurants);
   } catch (err) {
     next(err);
   }

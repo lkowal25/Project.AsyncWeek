@@ -13,10 +13,11 @@ export const RestaurantsLandingPage = (props) => {
   const [open, setOpen] = useState(false);
   const [localRestaurants, setLocalRestaurants] = useState([]);
 
-  const { username, zipcode } = useContext(UserContext);
+  const { username, zipcode, id } = useContext(UserContext);
   const [zc, setZc] = useState(zipcode);
-  console.log('new zc', zc);
-  console.log('local', localRestaurants);
+  console.log('new zc line 18 RLP', zc);
+  console.log('local - RLP ', localRestaurants);
+  console.log('RLP - USER ID', id);
   const map = new Map();
   const map2 = new Map();
 
@@ -59,7 +60,7 @@ export const RestaurantsLandingPage = (props) => {
   const sideBar = Array.from(map);
 
   useEffect(() => {
-    props.getAllRestaurants();
+    props.getAllRestaurants(id, zipcode);
   }, [zipcode]);
 
   function handleKeyDown(e) {
@@ -147,7 +148,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getAllRestaurants: () => dispatch(getAllRestaurants()),
+  getAllRestaurants: (userId, zipcode) =>
+    dispatch(getAllRestaurants(userId, zipcode)),
 });
 export default connect(
   mapStateToProps,
