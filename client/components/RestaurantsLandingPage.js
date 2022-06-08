@@ -15,10 +15,7 @@ export const RestaurantsLandingPage = (props) => {
 
   const { username, zipcode, id } = useContext(UserContext);
   const [zc, setZc] = useState(zipcode);
-  console.log('new zc line 18 RLP', zc);
   console.log('local - RLP ', localRestaurants);
-  console.log('RLP - USER ZC', zc);
-  console.log('RLP REST PROPS', props.restaurants);
   const map = new Map();
   const map2 = new Map();
 
@@ -26,11 +23,9 @@ export const RestaurantsLandingPage = (props) => {
 
   const [nationality, setNationality] = useState('');
 
-  const filtRest = restaurants.filter((rest) => rest.zipcode === zipcode);
-
   //restaurants are filtered based on zipcode (will need to be an includes with array)
-  for (let i = 0; i < filtRest.length; ++i) {
-    const curRest = filtRest[i];
+  for (let i = 0; i < restaurants.length; ++i) {
+    const curRest = restaurants[i];
     const curName = curRest.nationality;
 
     //slower than obj[i] = i but maps can use non strings as keys!
@@ -96,7 +91,7 @@ export const RestaurantsLandingPage = (props) => {
             })}
           </ScrollBox>
         ) : (
-          <h1>There are no restaurants near {zipcode}</h1>
+          <h1>There are no restaurants near {zc || zipcode}</h1>
         )}
       </div>
       <div id="restaurants-list">

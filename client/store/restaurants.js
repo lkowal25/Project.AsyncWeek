@@ -34,21 +34,22 @@ const _deleteRestaurant = (restaurant) => ({
 
 //THUNK CREATORS
 
-export const getAllRestaurants = (userId, zipcode) => async (dispatch) => {
-  const token = window.localStorage.getItem(TOKEN);
-  console.log('HERE IS THE ZIPCODE ON STORE', zipcode);
-  if (token) {
-    const { data: restaurants } = await axios.get(
-      `/api/restaurants/${userId}/${zipcode}`,
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    );
-    dispatch(gotAllRestaurants(restaurants));
-  }
-};
+export const getAllRestaurants =
+  (userId, zipcode, radius = 5, units = 'mile') =>
+  async (dispatch) => {
+    const token = window.localStorage.getItem(TOKEN);
+    if (token) {
+      const { data: restaurants } = await axios.get(
+        `/api/restaurants/${userId}/${zipcode}/${radius}/${units}`,
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+      dispatch(gotAllRestaurants(restaurants));
+    }
+  };
 
 export const createRestaurant = (restaurant, history) => {
   return async (dispatch) => {
