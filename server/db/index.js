@@ -19,6 +19,12 @@ Restaurant.hasMany(User, {
 });
 User.belongsTo(Restaurant);
 
+User.hasMany(Restaurant, {
+  as: 'localRestaurants',
+  foreignKey: 'userId',
+});
+Restaurant.belongsTo(User);
+
 module.exports = {
   db,
   models: {

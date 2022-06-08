@@ -1,6 +1,8 @@
 import axios from 'axios';
 // import history from '../history';
 
+const TOKEN = 'token';
+
 //ACTION TYPES
 
 const ALL_RESTAURANTS = 'ALL_RESTAURANTS';
@@ -32,9 +34,22 @@ const _deleteRestaurant = (restaurant) => ({
 
 //THUNK CREATORS
 
+// export const getAllRestaurants = () => async (dispatch) => {
+//   const { data: restaurants } = await axios.get('/api/restaurants');
+//   dispatch(gotAllRestaurants(restaurants));
+// };
+
 export const getAllRestaurants = () => async (dispatch) => {
-  const { data: restaurants } = await axios.get('/api/restaurants');
-  dispatch(gotAllRestaurants(restaurants));
+  const token = window.localStorage.getItem(TOKEN);
+  console.log('here is the token', token);
+  if (token) {
+    const { data: restaurants } = await axios.get('/api/restaurants', {
+      headers: {
+        authorization: token,
+      },
+    });
+    dispatch(gotAllRestaurants(restaurants));
+  }
 };
 
 export const createRestaurant = (restaurant, history) => {

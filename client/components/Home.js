@@ -9,28 +9,26 @@ import SingleRestaurant from './SingleRestaurant';
  */
 export const UserContext = createContext();
 export const Home = (props) => {
-  const { username, zipcode } = props;
+  const { username, zipcode, id } = props;
+  console.log('HOME Line 13: Zipcode', zipcode);
 
   return (
-    <UserContext.Provider value={{ username, zipcode }}>
+    <UserContext.Provider value={{ username, zipcode, id }}>
       <div>
         <h3>Welcome, {username}</h3>
         <h5>
-          <Link to={`/home/${username}/restaurants`}>
-            {' '}
-            All Restaurants Page
-          </Link>
+          <Link to={`/home/${id}/restaurants`}> All Restaurants Page</Link>
         </h5>
         <div id="landing-page">
           <Switch>
             <Route
               exact
-              path={`/home/${username}/restaurants`}
+              path={`/home/${id}/restaurants`}
               component={RestaurantsLandingPage}
             />
             <Route
               exact
-              path={`/home/${username}/restaurants/:id`}
+              path={`/home/${id}/restaurants/:id`}
               component={SingleRestaurant}
             />
           </Switch>
@@ -47,6 +45,7 @@ const mapState = (state) => {
   return {
     username: state.auth.username,
     zipcode: state.auth.zipcode,
+    id: state.auth.id,
   };
 };
 

@@ -13,7 +13,7 @@ router.get('/', requireToken, async (req, res, next) => {
     const restaurants = await Restaurant.findAll({
       include: [{ model: Food, as: 'menuItems' }],
     });
-    res.send(restaurants);
+    res.json(restaurants);
   } catch (err) {
     next(err);
   }

@@ -1,5 +1,5 @@
 {
-  "name": "fs-app-template",
+  "name": "async1",
   "version": "2.0.0",
   "description": "Some boilerplate code to get you started - get shakin'!",
   "main": "index.js",
@@ -36,7 +36,8 @@
     "react-horizontal-scrolling-menu": "^2.8.2",
     "sequelize": "^6.3.5",
     "url": "^0.11.0",
-    "util": "^0.12.4"
+    "util": "^0.12.4",
+    "zlib": "^1.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
