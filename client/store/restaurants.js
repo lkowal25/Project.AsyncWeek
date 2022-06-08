@@ -36,7 +36,7 @@ const _deleteRestaurant = (restaurant) => ({
 
 export const getAllRestaurants = (userId, zipcode) => async (dispatch) => {
   const token = window.localStorage.getItem(TOKEN);
-
+  console.log('HERE IS THE ZIPCODE ON STORE', zipcode);
   if (token) {
     const { data: restaurants } = await axios.get(
       `/api/restaurants/${userId}/${zipcode}`,

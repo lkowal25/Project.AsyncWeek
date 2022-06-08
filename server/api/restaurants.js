@@ -10,15 +10,16 @@ const { requireToken } = require('./gateKeepingMiddleware');
 // GET / api / restaurants;
 router.get('/:userId/:zipcode', requireToken, async (req, res, next) => {
   try {
+    console.log('HERE IS ZC ON API', req.params.zipcode);
     const userRestaurants = await Restaurant.findAll({
       where: {
         zipcode: req.params.zipcode,
       },
     });
-    const restaurants = await Restaurant.findAll({
-      include: [{ model: Food, as: 'menuItems' }],
-    });
-    res.send(restaurants);
+    // const restaurants = await Restaurant.findAll({
+    //   include: [{ model: Food, as: 'menuItems' }],
+    // });
+    res.send(userRestaurants);
   } catch (err) {
     next(err);
   }

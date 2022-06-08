@@ -17,7 +17,8 @@ export const RestaurantsLandingPage = (props) => {
   const [zc, setZc] = useState(zipcode);
   console.log('new zc line 18 RLP', zc);
   console.log('local - RLP ', localRestaurants);
-  console.log('RLP - USER ID', id);
+  console.log('RLP - USER ZC', zc);
+  console.log('RLP REST PROPS', props.restaurants);
   const map = new Map();
   const map2 = new Map();
 
@@ -60,8 +61,8 @@ export const RestaurantsLandingPage = (props) => {
   const sideBar = Array.from(map);
 
   useEffect(() => {
-    props.getAllRestaurants(id, zipcode);
-  }, [zipcode]);
+    props.getAllRestaurants(id, zc);
+  }, [zc]);
 
   function handleKeyDown(e) {
     if (e.key === 'Enter') {
