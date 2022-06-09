@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Restaurant, Food },
+  models: { User, Restaurant, Food, ZipCode },
 } = require('../server/db');
 
 /**
@@ -77,6 +77,20 @@ async function seed() {
       price: 10.25,
       description:
         'this is a food with the most amazing spices that you have ever seen, it will drive your taste buds wild from the moment you ingest to egrees',
+    }),
+  ]);
+  const zipcodes = await Promise.all([
+    ZipCode.create({
+      radius: 5,
+      units: 'mile',
+      zipcode: 9992299,
+      totalList: [11510, 11213, 13131, 414141, 151515, 14141],
+    }),
+    ZipCode.create({
+      radius: 5,
+      units: 'mile',
+      zipcode: 9992322,
+      totalList: [12321, 33333, 231312, 231231, 13231, 13231],
     }),
   ]);
 
