@@ -20,17 +20,14 @@ Restaurant.hasMany(User, {
 });
 User.belongsTo(Restaurant);
 
-User.hasMany(Restaurant, {
-  as: 'localRestaurants',
+Restaurant.belongsToMany(User, {
+  through: 'localRestaurants',
+  foreignKey: 'restaurantId',
+});
+User.belongsToMany(Restaurant, {
+  through: 'localRestaurants',
   foreignKey: 'userId',
 });
-Restaurant.belongsTo(User);
-
-// ZipCode.hasMany(Restaurant, {
-//   as: 'localRadius',
-//   foreignKey: 'zipCodeId',
-// });
-// Restaurant.belongsTo(ZipCode);
 
 module.exports = {
   db,

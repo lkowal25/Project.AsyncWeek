@@ -14,8 +14,17 @@ const ZipCode = db.define('zipcode', {
     unique: true,
     allowNull: false,
   },
-  totalList: {
+  onlyZipCodes: {
     type: Sequelize.ARRAY(Sequelize.INTEGER),
+  },
+  distanceFromCenter: {
+    type: Sequelize.ARRAY(Sequelize.STRING),
+  },
+  state: {
+    type: Sequelize.ARRAY(Sequelize.STRING),
+  },
+  city: {
+    type: Sequelize.ARRAY(Sequelize.STRING),
   },
 });
 

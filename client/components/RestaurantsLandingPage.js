@@ -19,7 +19,7 @@ export const RestaurantsLandingPage = (props) => {
   const map = new Map();
   const map2 = new Map();
 
-  const restaurants = [...props.restaurants];
+  const restaurants = props.restaurants;
 
   const [nationality, setNationality] = useState('');
 
