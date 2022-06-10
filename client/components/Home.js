@@ -2,7 +2,7 @@ import React, { createContext } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route, Switch, Link } from 'react-router-dom';
 import RestaurantsLandingPage from './RestaurantsLandingPage';
-import SingleRestaurant from './SingleRestaurant';
+import SingleRestaurant from './SingleRestaurant.js';
 
 /**
  * COMPONENT
@@ -10,7 +10,6 @@ import SingleRestaurant from './SingleRestaurant';
 export const UserContext = createContext();
 export const Home = (props) => {
   const { username, zipcode, id } = props;
-  console.log('HOME Line 13: Zipcode', zipcode);
 
   return (
     <UserContext.Provider value={{ username, zipcode, id }}>

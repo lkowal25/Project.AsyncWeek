@@ -19,7 +19,7 @@ const requireToken = async (req, res, next) => {
 const findOrCacheZCRadiusAPI = async (req, res, next) => {
   try {
     const { zipcode, radius, units } = req.params;
-    console.log('GKM 21 ZC,', zipcode, 'radius', radius);
+
     const zipcodeList = await ZipCode.findOne({
       where: {
         zipcode: req.params.zipcode,
@@ -27,6 +27,8 @@ const findOrCacheZCRadiusAPI = async (req, res, next) => {
         units: req.params.units,
       },
     });
+
+    req.zipCodeList = zipcodeList;
 
     if (!zipcodeList) {
       const { data: zipsInRadius } = await axios.get(
@@ -52,6 +54,7 @@ const findOrCacheZCRadiusAPI = async (req, res, next) => {
         return [...acc, curVal.city];
       }, []);
 
+      //the zip code list didn't exist so we will create it
       await ZipCode.create({
         radius,
         units,
@@ -77,15 +80,7 @@ const associateRestaurantsToUser = async (req, res, next) => {
     const token = req.headers.authorization;
     const user = await User.findByToken(token);
 
-    const zipcodeList = await ZipCode.findOne({
-      where: {
-        zipcode: req.params.zipcode,
-        radius: req.params.radius,
-        units: req.params.units,
-      },
-    });
-
-    const { onlyZipCodes } = zipcodeList.dataValues;
+    const { onlyZipCodes } = req.zipCodeList.dataValues;
 
     const restaurants = await Restaurant.findAll({
       where: {
@@ -96,12 +91,10 @@ const associateRestaurantsToUser = async (req, res, next) => {
     });
 
     const localRestaurants = await user.setRestaurants(restaurants);
-    console.log('LR GKM 101, ', localRestaurants);
     await user.update(localRestaurants);
-    console.log('GKM hopefully we have assigned Restaurants');
+
     return next();
   } catch (err) {
-    console.log("didn't make it");
     next(err);
   }
 };

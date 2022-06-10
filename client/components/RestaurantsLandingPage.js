@@ -11,11 +11,11 @@ import { Link } from 'react-router-dom';
 
 export const RestaurantsLandingPage = (props) => {
   const [open, setOpen] = useState(false);
-  const [localRestaurants, setLocalRestaurants] = useState([]);
+  // const [localRestaurants, setLocalRestaurants] = useState([]);
 
   const { username, zipcode, id } = useContext(UserContext);
   const [zc, setZc] = useState(zipcode);
-  console.log('local - RLP ', localRestaurants);
+
   const map = new Map();
   const map2 = new Map();
 
@@ -98,11 +98,7 @@ export const RestaurantsLandingPage = (props) => {
         <ul>
           {restaurants && restaurants.length > 0
             ? restaurants
-                .filter(
-                  (restaurant) =>
-                    restaurant.zipcode === zipcode &&
-                    restaurant.nationality === nationality
-                )
+                .filter((restaurant) => restaurant.nationality === nationality)
                 .sort(function (a, b) {
                   const nameA = a.name.split(' ').join('').toUpperCase(); // ignore upper and lowercase
                   const nameB = b.name.split(' ').join('').toUpperCase(); // ignore upper and lowercase
@@ -120,9 +116,7 @@ export const RestaurantsLandingPage = (props) => {
                   return (
                     <div key={idx} className="rest-list">
                       <li>
-                        <Link
-                          to={`/home/${username}/restaurants/${restauraunt.id}`}
-                        >
+                        <Link to={`/home/${id}/restaurants/${restauraunt.id}`}>
                           {restauraunt.name}
                         </Link>
                       </li>

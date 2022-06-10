@@ -20,38 +20,10 @@ router.get(
   associateRestaurantsToUser,
   async (req, res, next) => {
     try {
-      const { zipcode, radius, units } = req.params;
+      const user = req.user;
+      const restaurants = await user.getRestaurants();
 
-      console.log('REQ USER ID API L 25', req.user.dataValues.id);
-
-      const zipcodeList = await ZipCode.findOne({
-        where: {
-          zipcode: req.params.zipcode,
-          radius: req.params.radius,
-          units: req.params.units,
-        },
-      });
-
-      const { onlyZipCodes } = zipcodeList.dataValues;
-
-      const userRestaurants = await Restaurant.findAll({
-        where: {
-          zipcode: {
-            [Op.in]: onlyZipCodes,
-          },
-        },
-      });
-
-      // const userRestaurants = await Restaurant.findAll({
-      //   where: {
-      //     userId: req.user.dataValues.id,
-      //   },
-      // });
-
-      // const restaurants = await Restaurant.findAll({
-      //   include: [{ model: Food, as: 'menuItems' }],
-      // });
-      res.json(userRestaurants);
+      res.json(restaurants);
     } catch (err) {
       next(err);
     }
