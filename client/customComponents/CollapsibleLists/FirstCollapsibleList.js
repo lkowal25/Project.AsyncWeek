@@ -10,19 +10,25 @@ function FirstCollapsible(props) {
     handleOnClick,
   };
 
-  const { getCollapseProps, getToggleProps } = useCollapse(config);
-
   //state was lifted to Comp > RLP and drilled back down
   const { isExpanded, setExpanded } = props;
 
-  function handleOnClick() {
+  //this captures the state of the first collapsible div
+  const [toggle, setToggle] = useState();
+
+  const { getCollapseProps, getToggleProps } = useCollapse(config);
+
+  function handleOnClick(e) {
     // Do more stuff with the click event!
     // Or, set isExpanded conditionally
 
     setExpanded(!isExpanded);
+    setToggle(getToggleProps()['aria-expanded']);
   }
 
   function closeWhenDone() {
+    setToggle(!toggle);
+
     if (isExpanded === true) {
       document.querySelector('#react-collapsed-toggle-4').click();
     }

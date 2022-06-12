@@ -28,6 +28,8 @@ form div {
   display: inline-block;
 }
 
+/*horizontal scroll bar */
+
 .box-container {
   align-content: center;
   align-items: center;
@@ -102,6 +104,8 @@ form div {
   justify-content: center;
   list-style: none;
 }
+
+/* my collapsible divs */
 
 .collapsible .content {
   padding: 6px;

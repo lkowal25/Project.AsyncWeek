@@ -84,10 +84,8 @@ export const RestaurantsLandingPage = (props) => {
 
   //event listener is applied to the horizontal bar to close divs
   function resetListToClose() {
-    console.log(isExpanded);
     if (isExpanded === true) {
       setExpanded(false);
-      console.log('made it RLP 90', isExpanded);
     }
   }
 
