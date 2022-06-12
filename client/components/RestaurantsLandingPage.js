@@ -1,9 +1,16 @@
 import { use } from 'chai';
 
-import React, { useEffect, useState, useContext, useRef } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  useRef,
+  useCallback,
+} from 'react';
 import { useEventListener } from './CustomHooks/useEventListener';
 import ScrollBox from '../customComponents/HorizontalScrollMenu';
 import { UserContext } from './Home';
+import FirstCollapsible from '../customComponents/CollapsibleLists/FirstCollapsibleList';
 
 import { connect } from 'react-redux';
 import { getAllRestaurants } from '../store/restaurants';
@@ -59,7 +66,7 @@ export const RestaurantsLandingPage = (props) => {
     props.getAllRestaurants(id, zc);
   }, [zc]);
 
-  function handleKeyDown(e) {
+  function zcOnKeyDown(e) {
     if (e.key === 'Enter') {
       setZc(e.target.value);
     }
@@ -68,9 +75,28 @@ export const RestaurantsLandingPage = (props) => {
   //custom hook can be used for any element, any event useful for grouping event listeners
   useEventListener(
     'keydown',
-    handleKeyDown,
+    zcOnKeyDown,
     document.querySelector('#horizontal-scroll-bar > input')
   );
+
+  //lifted State for my collapsible divs (see: custom Comp > Collapsible > First Collapsible Div)
+  const [isExpanded, setExpanded] = useState(false);
+
+  //event listener is applied to the horizontal bar to close divs
+  function resetListToClose() {
+    console.log(isExpanded);
+    if (isExpanded === true) {
+      setExpanded(false);
+      console.log('made it RLP 90', isExpanded);
+    }
+  }
+
+  useEventListener(
+    'click',
+    resetListToClose,
+    document.querySelector('#horizontal-scroll-bar > div:nth-child(3)')
+  );
+
   return (
     <div id="horizontal-scroll-bar">
       <h3>RESTAURANTS NEAR {zc || zipcode}</h3>
@@ -115,11 +141,11 @@ export const RestaurantsLandingPage = (props) => {
                 .map((restauraunt, idx) => {
                   return (
                     <div key={idx} className="rest-list">
-                      <li>
-                        <Link to={`/home/${id}/restaurants/${restauraunt.id}`}>
-                          {restauraunt.name}
-                        </Link>
-                      </li>
+                      <FirstCollapsible
+                        name={restauraunt.name}
+                        isExpanded={isExpanded}
+                        setExpanded={setExpanded}
+                      />
                     </div>
                   );
                 })

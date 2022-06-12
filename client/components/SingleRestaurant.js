@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { use } from 'chai';
 import React, { useEffect } from 'react';
-import Collapsible from '../customComponents/CollapsibleLists/RestaurantSections';
+import FirstCollapsible from '../customComponents/CollapsibleLists/FirstCollapsibleList';
 
 const SingleRestaurant = (props) => {
   return (
     <div>
       <h2>THIS IS A SINGLE RESTAURANT</h2>
-      <Collapsible />
+      <FirstCollapsible />
     </div>
   );
 };

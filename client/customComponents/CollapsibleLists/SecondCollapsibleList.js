@@ -1,25 +1,21 @@
 import React from 'react';
 import useCollapse from 'react-collapsed';
-import InnerCollapsible from './InnerCollapsible';
+// import InnerCollapsible from 'InnerCollapsible';
 
-function Collapsible() {
+export default function SecondCollapsibleList() {
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();
   return (
     <div className="collapsible">
       <div className="header" {...getToggleProps()}>
-        {isExpanded ? 'Close' : 'Open'}
+        {isExpanded ? 'Collapse' : 'Expand'}
       </div>
       <div {...getCollapseProps()}>
         <div className="content">
-          Now you can see the hidden content. <br />
+          This is the inner div <br />
           <br />
-          Click <i>Close</i> to hide everything... <br />
-          <br />
-          <InnerCollapsible />
+          Click <i>Collapse</i> to hide this content...
         </div>
       </div>
     </div>
   );
 }
-
-export default Collapsible;
