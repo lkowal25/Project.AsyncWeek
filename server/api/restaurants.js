@@ -22,6 +22,7 @@ router.get(
     try {
       const user = req.user;
       const restaurants = await user.getRestaurants();
+      if (!restaurants) res.json('');
 
       res.json(restaurants);
     } catch (err) {

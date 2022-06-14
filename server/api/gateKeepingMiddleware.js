@@ -5,6 +5,7 @@ const {
 } = require('../db');
 const { Op } = require('sequelize');
 
+//consider moving generate token here
 const requireToken = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
@@ -63,7 +64,13 @@ const findOrCacheZCRadiusAPI = async (req, res, next) => {
         distanceFromCenter,
         state,
       });
-
+      req.zipCodeList = await ZipCode.findOne({
+        where: {
+          zipcode: req.params.zipcode,
+          radius: req.params.radius,
+          units: req.params.units,
+        },
+      });
       return next();
     } else {
       req.zipcodeList = zipcodeList;

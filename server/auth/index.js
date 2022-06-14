@@ -2,6 +2,7 @@ const router = require('express').Router();
 const {
   models: { User },
 } = require('../db');
+const { requireToken } = require('../api/gateKeepingMiddleware');
 module.exports = router;
 
 router.post('/login', async (req, res, next) => {
@@ -28,9 +29,10 @@ router.post('/signup', async (req, res, next) => {
   }
 });
 
-router.get('/me', async (req, res, next) => {
+router.get('/me', requireToken, async (req, res, next) => {
   try {
-    res.send(await User.findByToken(req.headers.authorization));
+    if (!req.user) error.status(400).send('you tried a thing you did');
+    res.send(req.user);
   } catch (ex) {
     next(ex);
   }

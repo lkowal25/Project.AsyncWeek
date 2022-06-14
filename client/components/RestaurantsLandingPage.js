@@ -64,6 +64,7 @@ export const RestaurantsLandingPage = (props) => {
 
   useEffect(() => {
     props.getAllRestaurants(id, zc);
+    console.log('we have fired UE', restaurants);
   }, [zc]);
 
   function zcOnKeyDown(e) {

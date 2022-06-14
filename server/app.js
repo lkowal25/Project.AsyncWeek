@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const app = express();
+const cookieParser = 'cookie-parser';
 module.exports = app;
 
 // logging middleware
