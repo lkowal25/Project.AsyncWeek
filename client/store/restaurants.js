@@ -37,18 +37,10 @@ const _deleteRestaurant = (restaurant) => ({
 export const getAllRestaurants =
   (userId, zipcode, radius = 5, units = 'mile') =>
   async (dispatch) => {
-    const token = window.localStorage.getItem(TOKEN);
-    if (token) {
-      const { data: restaurants } = await axios.get(
-        `/api/restaurants/${userId}/${zipcode}/${radius}/${units}`,
-        {
-          headers: {
-            authorization: token,
-          },
-        }
-      );
-      dispatch(gotAllRestaurants(restaurants));
-    }
+    const { data: restaurants } = await axios.get(
+      `/api/restaurants/${userId}/${zipcode}/${radius}/${units}`
+    );
+    dispatch(gotAllRestaurants(restaurants));
   };
 
 export const createRestaurant = (restaurant, history) => {

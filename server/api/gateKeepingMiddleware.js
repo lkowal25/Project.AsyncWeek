@@ -8,7 +8,8 @@ const { Op } = require('sequelize');
 //consider moving generate token here
 const requireToken = async (req, res, next) => {
   try {
-    const token = req.headers.authorization;
+    const token = req.signedCookies.token;
+
     const user = await User.findByToken(token);
     req.user = user;
     next();
@@ -84,7 +85,7 @@ const findOrCacheZCRadiusAPI = async (req, res, next) => {
 
 const associateRestaurantsToUser = async (req, res, next) => {
   try {
-    const token = req.headers.authorization;
+    const token = req.signedCookies.token;
     const user = await User.findByToken(token);
 
     const { onlyZipCodes } = req.zipCodeList.dataValues;

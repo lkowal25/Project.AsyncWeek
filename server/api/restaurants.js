@@ -22,6 +22,8 @@ router.get(
     try {
       const user = req.user;
       const restaurants = await user.getRestaurants();
+
+      if (req.zipError) console.log('WE HIT AN ERR');
       if (!restaurants) res.json('');
 
       res.json(restaurants);

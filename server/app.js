@@ -2,9 +2,12 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const app = express();
-const cookieParser = 'cookie-parser';
+const cookieParser = require('cookie-parser');
 module.exports = app;
 
+//cookie parser
+
+app.use(cookieParser(process.env.COOKIE_SECRET));
 // logging middleware
 app.use(morgan('dev'));
 
